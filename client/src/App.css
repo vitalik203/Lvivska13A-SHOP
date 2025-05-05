@@ -1,11 +1,213 @@
 * {
-    font-family: Arial, Helvetica, sans-serif;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.form_call{
+/* HTML: <div class="loader"></div> */
+.loader {
+  margin: 0 auto;
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid #514b82;
+  animation: l20-1 0.8s infinite linear alternate, l20-2 1.6s infinite linear;
+}
+@keyframes l20-1 {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+  }
+  12.5% {
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 0%,
+      100% 0%,
+      100% 0%
+    );
+  }
+  25% {
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 100%,
+      100% 100%,
+      100% 100%
+    );
+  }
+  50% {
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+  62.5% {
+    clip-path: polygon(
+      50% 50%,
+      100% 0,
+      100% 0%,
+      100% 0%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+  75% {
+    clip-path: polygon(
+      50% 50%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+  100% {
+    clip-path: polygon(
+      50% 50%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+}
+@keyframes l20-2 {
+  0% {
+    transform: scaleY(1) rotate(0deg);
+  }
+  49.99% {
+    transform: scaleY(1) rotate(135deg);
+  }
+  50% {
+    transform: scaleY(-1) rotate(0deg);
+  }
+  100% {
+    transform: scaleY(-1) rotate(-135deg);
+  }
+}
+
+.form_call {
+  width: 300px;
+  height: 50px;
+  border: 4px solid black;
+  border-radius: 5px;
+  font-size: 25px;
+  float: right;
+  margin: 25px 25px 0 0;
+}
+
+.getData {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 25px;
+  font-size: 35px;
+}
+
+.getData img {
+  display: block;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+}
+
+.getData img:checked {
+}
+
+.form_cover {
+  position: fixed;
+  display: grid;
+  place-items: center; /* одночасно вертикально і горизонтально */
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(95, 95, 95, 0.64);
+}
+
+.form_cover .close_form_btn {
+  width: 35px;
+  height: 35px;
+  font-size: 32px;
+  float: right;
+}
+
+.hidden {
+  display: none;
+}
+
+.form_cover .form {
+  background-color: bisque;
+  position: fixed;
+  max-width: 80%;
+  max-height: fit-content !important;
+  margin: 25px auto;
+  border: 1px solid black;
+  font-size: 34px;
+  padding: 25px;
+  border-radius: 4px;
+  box-shadow: 10px 8px 4px 1px;
+  border: 0;
+}
+
+.form_cover .form button:first-child {
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.form_cover .form button {
+  width: 250px;
+  height: 50px;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.form_cover .form input {
+  width: 65%;
+  height: 35px;
+  font-size: 25px;
+}
+
+.form_cover .form .clearForm {
+  float: right;
+}
+
+table {
+  overflow: auto;
+}
+
+table tr td {
+  padding: 15px;
+}
+
+table tr th {
+  padding: 15px;
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 768px) {
+  .form_call {
     width: 300px;
     height: 50px;
     border: 4px solid black;
@@ -13,223 +215,104 @@
     font-size: 25px;
     float: right;
     margin: 25px 25px 0 0;
-}
+  }
 
-.getData{
+  .getData {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     margin: 25px;
     font-size: 35px;
-}
+  }
 
-.getData img{
+  .getData img {
     display: block;
     width: 95px;
     height: 95px;
     border-radius: 50%;
-}
+  }
 
+  .getData img:checked {
+  }
 
-.getData img:checked{
-}
-
-.form_cover{
+  .form_cover {
     position: fixed;
     display: grid;
-  place-items: center; /* одночасно вертикально і горизонтально */
-  height: 100vh;
+    place-items: center; /* одночасно вертикально і горизонтально */
+    height: 100vh;
     justify-content: center;
     width: 100%;
     margin: 0;
     padding: 0;
     background-color: rgba(95, 95, 95, 0.64);
-}
+  }
 
-.form_cover .close_form_btn{
+  .form_cover .close_form_btn {
     width: 35px;
     height: 35px;
     font-size: 32px;
     float: right;
-}
+  }
 
-.hidden{
+  .hidden {
     display: none;
-}
+  }
 
-
-
-.form_cover .form{
+  .form_cover .form {
     background-color: bisque;
     position: fixed;
     max-width: 80%;
     max-height: fit-content !important;
     margin: 25px auto;
     border: 1px solid black;
-    font-size: 34px;
+    font-size: 26px;
     padding: 25px;
     border-radius: 4px;
     box-shadow: 10px 8px 4px 1px;
     border: 0;
-}
+    height: fit-content !important;
+  }
 
-.form_cover .form button:first-child{
+  .form_cover .form button:first-child {
     width: 50px;
     height: 50px;
     margin-top: 10px;
     font-size: 18px;
     font-weight: 800;
-}
+  }
 
-.form_cover .form button{
+  .form_cover .form button {
     width: 250px;
     height: 50px;
     margin-top: 10px;
     font-size: 18px;
     font-weight: 800;
-}
+  }
 
-.form_cover .form input{
+  .form_cover .form input {
     width: 65%;
     height: 35px;
     font-size: 25px;
-}
+  }
 
-.form_cover .form .clearForm{
+  .form_cover .form .clearForm {
     float: right;
-}
+  }
 
-table{
-    overflow: auto;
-}
-
-table tr td{
+  table tr td {
     padding: 15px;
-}
+  }
 
-table tr th{
+  table tr th {
     padding: 15px;
-}
-
-@media (max-width: 576px) {
-
-}
-
-@media (max-width: 768px) {
-    .form_call{
-        width: 300px;
-        height: 50px;
-        border: 4px solid black;
-        border-radius: 5px;
-        font-size: 25px;
-        float: right;
-        margin: 25px 25px 0 0;
-    }
-    
-    .getData{
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin: 25px;
-        font-size: 35px;
-    }
-    
-    .getData img{
-        display: block;
-        width: 95px;
-        height: 95px;
-        border-radius: 50%;
-    }
-    
-    
-    .getData img:checked{
-    }
-    
-    .form_cover{
-        position: fixed;
-        display: grid;
-      place-items: center; /* одночасно вертикально і горизонтально */
-      height: 100vh;
-        justify-content: center;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        background-color: rgba(95, 95, 95, 0.64);
-    }
-    
-    .form_cover .close_form_btn{
-        width: 35px;
-        height: 35px;
-        font-size: 32px;
-        float: right;
-    }
-    
-    .hidden{
-        display: none;
-    }
-    
-    
-    
-    .form_cover .form{
-        background-color: bisque;
-        position: fixed;
-        max-width: 80%;
-        max-height: fit-content !important;
-        margin: 25px auto;
-        border: 1px solid black;
-        font-size: 26px;
-        padding: 25px;
-        border-radius: 4px;
-        box-shadow: 10px 8px 4px 1px;
-        border: 0;
-        height: fit-content !important;
-    }
-    
-    .form_cover .form button:first-child{
-        width: 50px;
-        height: 50px;
-        margin-top: 10px;
-        font-size: 18px;
-        font-weight: 800;
-    }
-    
-    .form_cover .form button{
-        width: 250px;
-        height: 50px;
-        margin-top: 10px;
-        font-size: 18px;
-        font-weight: 800;
-    }
-    
-    .form_cover .form input{
-        width: 65%;
-        height: 35px;
-        font-size: 25px;
-    }
-    
-    .form_cover .form .clearForm{
-        float: right;
-    }
-    
-    
-    table tr td{
-        padding: 15px;
-    }
-    
-    table tr th{
-        padding: 15px;
-    }
-
+  }
 }
 
 @media (min-width: 992px) {
-    
 }
 
 @media (min-width: 1200px) {
-    
 }
 
 @media (min-width: 1400px) {
-    
 }
