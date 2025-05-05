@@ -1,34 +1,34 @@
 import "./App.css";
-import { useState, useRef } from "react";
+import React, { useState, useRef, ReactNode } from "react";
 
+type DataItem = {
+  id: number;
+  name: string;
+  date: string;
+  price: number;
+  percent: number;
+  price_with_extra: unknown;
+  amount: number;
+  general_price_without_percent: unknown;
+  general_price_with_percent: unknown;
+};
 function App() {
-  //All data
-  const [datas, setDatas] = useState<DataItem[]>();
+  const [datas, setDatas] = useState<DataItem[]>([]);
 
-  type DataItem = {
-    id: number;
-    name: string;
-    // інші поля
-  };
-
-  //State for all form variables
-  const [dateVal, setDateVal] = useState(
+  const [dateVal, setDateVal] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
-  const [nameVal, setNameVal] = useState<string | undefined>();
-  const [priceVal, setPriceVal] = useState<string | undefined>();
-  const [percentVal, setPercentVal] = useState<string | undefined>();
-  const [priceWithExtraVal, setPriceWithExtraVal] = useState<
-    string | undefined
-  >();
-  const [amountVal, setAmountVal] = useState<string | undefined>();
+  const [nameVal, setNameVal] = useState<string>("");
+  const [priceVal, setPriceVal] = useState<string>("");
+  const [percentVal, setPercentVal] = useState<string>("");
+  const [priceWithExtraVal, setPriceWithExtraVal] = useState<ReactNode>(0);
+  const [amountVal, setAmountVal] = useState<string>("");
   const [generalPriceWithoutExtraVal, SetGeneralPriceWithoutExtraVal] =
-    useState<string | undefined>();
-  const [generalPriceWithExtraVal, SetGeneralPriceWithExtraVal] = useState<
-    string | undefined
-  >();
+    useState<ReactNode>(0);
+  const [generalPriceWithExtraVal, SetGeneralPriceWithExtraVal] =
+    useState<unknown>(0);
 
-  const [variable, setVariable] = useState<string>("");
+  // const [variable, setVariable] = useState<string>("");
 
   //Refs
   const formField = useRef<HTMLDivElement>(null);
@@ -55,29 +55,27 @@ function App() {
       })
       .catch((err) => console.error("My error", err.message || err));
   }
-  // @ts-ignore
-  function calculateExtraVal(e) {
+  function calculateExtraVal(e: React.MouseEvent<HTMLFormElement>) {
     e.preventDefault();
-    // @ts-ignore
-    const generalPriceWithExtraValVar = Number(
-      (priceVal * (1 + percentVal / 100) * amountVal).toFixed(2)
-    );
-    // @ts-ignore
-    const generalPriceWithoutExtraValVar = Number(
-      (priceVal * amountVal).toFixed(2)
-    );
+    const price = parseFloat(priceVal);
+    const percent = parseFloat(percentVal);
+    const amount = parseFloat(amountVal);
 
-    // @ts-ignore
-    SetGeneralPriceWithExtraVal(generalPriceWithExtraValVar);
-    // @ts-ignore
-    SetGeneralPriceWithoutExtraVal(generalPriceWithoutExtraValVar);
-    // @ts-ignore
-    setPriceWithExtraVal(
-      Number((priceVal * (1 + percentVal / 100)).toFixed(2))
-    );
+    if (isNaN(price) || isNaN(percent) || isNaN(amount)) {
+      alert("Введіть коректні числові значення!");
+      return;
+    }
+
+    const priceWithExtra = Number((price * (1 + percent / 100)).toFixed(2));
+    const generalWithoutExtra = Number((price * amount).toFixed(2));
+    const generalWithExtra = Number((priceWithExtra * amount).toFixed(2));
+
+    setPriceWithExtraVal(priceWithExtra);
+    SetGeneralPriceWithoutExtraVal(generalWithoutExtra);
+    SetGeneralPriceWithExtraVal(generalWithExtra);
   }
 
-  async function pushData(e: any) {
+  async function pushData(e: React.MouseEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (
@@ -109,7 +107,7 @@ function App() {
             amount: amountVal,
             general_price_without_percent: generalPriceWithoutExtraVal,
             general_price_with_percent: generalPriceWithExtraVal,
-          }), // тіло запиту
+          }),
         }
       ).catch((err) => console.log("THE ERROR DURING POST IS " + err));
 
@@ -131,7 +129,7 @@ function App() {
   }
 
   return (
-    <>
+    <React.Fragment>
       <div ref={formField} className="form_cover hidden">
         <form onSubmit={pushData} className="form">
           <button onClick={fornCloseBtn} className="close_form_btn">
@@ -197,7 +195,7 @@ function App() {
           <label>
             ОСТАТОЧНО:{" "}
             <input
-              onChange={(e) => setPriceWithExtraVal(e.target.value)}
+              onChange={(e: unknown) => setPriceWithExtraVal(e.target.value)}
               type="number"
             />
           </label>{" "}
@@ -238,7 +236,7 @@ function App() {
           <th>ЗАГ. ЦІНА З %</th>
         </tr>
         {datas
-          ? datas.map((el: any, i: any): any => (
+          ? datas.map((el: DataItem, i: number) => (
               <tr key={i}>
                 <td>{el.id}</td>
                 <td>{el.date}</td>
@@ -254,7 +252,7 @@ function App() {
           : null}
       </table>
       <div ref={spinRef} className="loader hidden"></div>
-    </>
+    </React.Fragment>
   );
 }
 
