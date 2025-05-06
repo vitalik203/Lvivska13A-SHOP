@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { useState, useRef, ReactNode } from "react";
 
+
 type DataItem = {
   id: number;
   name: string;
@@ -55,7 +56,7 @@ function App() {
       })
       .catch((err) => console.error("My error", err.message || err));
   }
-  function calculateExtraVal(e: React.MouseEvent<HTMLFormElement>) {
+  function calculateExtraVal(e: React.MouseEvent<HTMLButtonElement>): unknown {
     e.preventDefault();
     const price = parseFloat(priceVal);
     const percent = parseFloat(percentVal);
@@ -75,7 +76,7 @@ function App() {
     SetGeneralPriceWithExtraVal(generalWithExtra);
   }
 
-  async function pushData(e: React.MouseEvent<HTMLFormElement>) {
+  async function pushData(e: any) {
     e.preventDefault();
 
     if (
@@ -129,7 +130,7 @@ function App() {
   }
 
   return (
-    <React.Fragment>
+    <div className="wrapper">
       <div ref={formField} className="form_cover hidden">
         <form onSubmit={pushData} className="form">
           <button onClick={fornCloseBtn} className="close_form_btn">
@@ -195,7 +196,7 @@ function App() {
           <label>
             ОСТАТОЧНО:{" "}
             <input
-              onChange={(e: unknown) => setPriceWithExtraVal(e.target.value)}
+              onChange={(e) => setPriceWithExtraVal(e.target.value)}
               type="number"
             />
           </label>{" "}
@@ -223,6 +224,7 @@ function App() {
       <button className="getData" onClick={getData}>
         <img src="/logo.jpg" alt="" />
       </button>
+      <div className="table_wrapper">
       <table border={1}>
         <tr>
           <th>ID</th>
@@ -240,19 +242,20 @@ function App() {
               <tr key={i}>
                 <td>{el.id}</td>
                 <td>{el.date}</td>
-                <td>{el.name}</td>
-                <td>{"₴ " + el.price}</td>
+                <td><b>{el.name}</b></td>
+                <td style={{backgroundColor: "green", color: "white"}}>{"₴ " + el.price}</td>
                 <td>{el.percent}</td>
                 <td>{"₴ " + el.price_with_extra}</td>
                 <td>{el.amount}</td>
                 <td>{"₴ " + el.general_price_without_percent}</td>
-                <td>{"₴ " + el.general_price_with_percent}</td>
+                <td style={{backgroundColor: "lightgreen", color: "darkgreen"}}>{"₴ " + el.general_price_with_percent}</td>
               </tr>
             ))
           : null}
       </table>
+      </div>
       <div ref={spinRef} className="loader hidden"></div>
-    </React.Fragment>
+    </div>
   );
 }
 
