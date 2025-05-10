@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useRef, ReactNode } from "react";
+import { useState, useRef, ReactNode } from "react";
 
 
 type DataItem = {
@@ -16,24 +16,28 @@ type DataItem = {
 function App() {
   const [datas, setDatas] = useState<DataItem[]>([]);
 
+  const [selectedData, setSelectedData] = useState<string>("bacalia")
+  const [insertedData, setInsertedData] = useState<string>("bacalia")
+
   const [dateVal, setDateVal] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
   const [nameVal, setNameVal] = useState<string>("");
   const [priceVal, setPriceVal] = useState<string>("");
   const [percentVal, setPercentVal] = useState<string>("");
-  const [priceWithExtraVal, setPriceWithExtraVal] = useState<ReactNode>(0);
+  const [priceWithExtraValDraft, setPriceWithExtraVal] = useState<any>(0);
+  const [priceWithExtraVal, setPriceWithExtraVal] = useState<any>(0);
   const [amountVal, setAmountVal] = useState<string>("");
   const [generalPriceWithoutExtraVal, SetGeneralPriceWithoutExtraVal] =
-    useState<ReactNode>(0);
+    useState<any>(0);
   const [generalPriceWithExtraVal, SetGeneralPriceWithExtraVal] =
-    useState<unknown>(0);
-
-  // const [variable, setVariable] = useState<string>("");
+    useState<any>(0);
+  // const [scrollY, setScrollY] = useState(0);
 
   //Refs
   const formField = useRef<HTMLDivElement>(null);
   const spinRef = useRef<HTMLDivElement>(null);
+  
 
   function resetFormFields() {
     setDateVal("");
@@ -48,13 +52,16 @@ function App() {
 
   function getData() {
     spinRef.current?.classList.remove("hidden");
-    fetch(`https://server-for-shop-c353.onrender.com/data`)
+    fetch(`https://server-for-shop-c353.onrender.com/${selectedData}`)
       .then((res) => res.json())
       .then((dats) => {
         setDatas(dats);
         spinRef.current?.classList.add("hidden");
       })
-      .catch((err) => console.error("My error", err.message || err));
+      .catch((err) => {
+        console.error("My error", err.message || err)
+        spinRef.current?.classList.add("hidden");
+      });
   }
   function calculateExtraVal(e: React.MouseEvent<HTMLButtonElement>): unknown {
     e.preventDefault();
@@ -70,7 +77,7 @@ function App() {
     const priceWithExtra = Number((price * (1 + percent / 100)).toFixed(2));
     const generalWithoutExtra = Number((price * amount).toFixed(2));
     const generalWithExtra = Number((priceWithExtra * amount).toFixed(2));
-
+    
     setPriceWithExtraVal(priceWithExtra);
     SetGeneralPriceWithoutExtraVal(generalWithoutExtra);
     SetGeneralPriceWithExtraVal(generalWithExtra);
@@ -95,7 +102,7 @@ function App() {
         return;
       }
       const res = await fetch(
-        `https://server-for-shop-c353.onrender.com/data`,
+        `https://server-for-shop-c353.onrender.com/${insertedData}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -129,6 +136,30 @@ function App() {
     resetFormFields();
   }
 
+
+  // function ScrollTracker() {  
+  //   useEffect(() => {
+  //     const handleScroll = () => {
+  //       setScrollY(window.scrollY);
+  //       console.log(window.scrollY);
+        
+  //     };
+  
+  //     window.addEventListener('scroll', handleScroll);
+  
+  //     // Очищення слухача при демонтажі компонента
+  //     return () => {
+  //       window.removeEventListener('scroll', handleScroll);
+  //     };
+  //   }, []);
+  // }
+
+  function correctDateFormst(date: any){
+    date = date.split("T")
+    const secondPartOfDate = date[1].split(".")
+    return `${date[0]} ${secondPartOfDate[0]}` 
+  } 
+
   return (
     <div className="wrapper">
       <div ref={formField} className="form_cover hidden">
@@ -136,6 +167,13 @@ function App() {
           <button onClick={fornCloseBtn} className="close_form_btn">
             X
           </button>{" "}
+          <br />
+          <select style={{width: "160px", height: "40px", fontSize: "25px"}} onChange={(e) => setInsertedData(e.target.value)}>
+            <option value="bacalia" selected>Бакалія</option>
+            <option value="milk">Молочка</option>
+            <option value="bread">Хліб</option>
+            <option value="meat">М'ясне</option>
+          </select>
           <br />
           <label>
             ВВЕДІТЬ НАЗВУ:{" "}
@@ -190,7 +228,7 @@ function App() {
           <br />
           <button onClick={calculateExtraVal}>РОЗРАХУВАТИ ВАРТІСТЬ</button>
           <br />
-          <label>КІНЦЕВА ВАРТІСТЬ: {priceWithExtraVal}</label> <br />
+          <label>КІНЦЕВА ВАРТІСТЬ: {}</label> <br />
           <hr />
           <br />
           <label>
@@ -209,51 +247,55 @@ function App() {
         </form>
       </div>
       <hr />
-
+      <div className="input_cover">
+        <select style={{width: "160px", height: "40px", fontSize: "25px", margin: "35px 0 0 35px"}} onChange={(e) => setSelectedData(e.target.value)}>
+          <option value="bacalia" selected>Бакалія</option>
+          <option value="milk">Молочка</option>
+          <option value="bread">Хліб</option>
+          <option value="meat">М'ясне</option>
+        </select>
+      </div>
+      <br />
       <button onClick={formOpenBtn} className="form_call">
         ВІДКРИТИ ФОРМУ
       </button>
 
       <br />
-      {/* <input
-        placeholder="Пошук за назвою..."
-        type="text"
-        value={variable}
-        onChange={(e) => setVariable(e.target.value)}
-      /> */}
       <button className="getData" onClick={getData}>
         <img src="/logo.jpg" alt="" />
       </button>
       <div className="table_wrapper">
-      <table border={1}>
-        <tr>
-          <th>ID</th>
-          <th>ДАТА</th>
-          <th>НАЗВА</th>
-          <th>ЦІНА</th>
-          <th>%</th>
-          <th>ЦІНА З %</th>
-          <th>КІЛЬКІСТЬ</th>
-          <th>ЗАГ. ЦІНА БЕЗ %</th>
-          <th>ЗАГ. ЦІНА З %</th>
+  <table border={1}>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>ДАТА</th>
+        <th>НАЗВА</th>
+        <th>ЦІНА</th>
+        <th>КІЛЬКІСТЬ</th>
+        <th>%</th>
+        <th>ЦІНА З %</th>
+        <th>ЗАГ. ЦІНА</th>
+        <th>ЗАГ. ЦІНА З %</th>
+      </tr>
+    </thead>
+    <tbody>
+      {datas.map((el: DataItem, i: number) => (
+        <tr key={i}>
+          <td>{el.id}</td>
+          <td><b>{correctDateFormst(el.date)}</b></td>
+          <td><b>{el.name}</b></td>
+          <td style={{backgroundColor: "green", color: "white"}}>{"₴ " + el.price}</td>
+          <td>{el.amount}</td>
+          <td>{el.percent + "%"}</td>
+          <td>{"₴ " + el.price_with_extra}</td>
+          <td>{"₴ " + el.general_price_without_percent}</td>
+          <td style={{backgroundColor: "lightgreen", color: "darkgreen"}}>{"₴ " + el.general_price_with_percent}</td>
         </tr>
-        {datas
-          ? datas.map((el: DataItem, i: number) => (
-              <tr key={i}>
-                <td>{el.id}</td>
-                <td>{el.date}</td>
-                <td><b>{el.name}</b></td>
-                <td style={{backgroundColor: "green", color: "white"}}>{"₴ " + el.price}</td>
-                <td>{el.percent}</td>
-                <td>{"₴ " + el.price_with_extra}</td>
-                <td>{el.amount}</td>
-                <td>{"₴ " + el.general_price_without_percent}</td>
-                <td style={{backgroundColor: "lightgreen", color: "darkgreen"}}>{"₴ " + el.general_price_with_percent}</td>
-              </tr>
-            ))
-          : null}
-      </table>
-      </div>
+      ))}
+    </tbody>
+  </table>
+</div>
       <div ref={spinRef} className="loader hidden"></div>
     </div>
   );

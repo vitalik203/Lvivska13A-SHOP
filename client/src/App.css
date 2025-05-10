@@ -16,6 +16,48 @@ background-size: auto;
 z-index: 1;
 }
 
+
+.login_cover{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(88, 182, 104);
+  display: grid;
+  place-items: center;
+}
+
+.login_cover .login_form{
+  width: 300px;
+  height: 400px;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  background-color: burlywood;
+  font-size: 25px;
+}
+
+.login_cover .login_form label{
+  margin-top: 15px;
+  margin-left: 25px;
+}
+
+.login_cover .login_form input{
+  border-radius: 5px;
+  height: 30px;
+  width: 80%;
+  font-size: 25px;
+}
+
+.login_cover .login_form button{
+  font-size: 25px;
+  margin: auto 25px 25px 25px;
+  border-radius: 5px;
+}
+
+
 /* HTML: <div class="loader"></div> */
 .loader {
   margin: 0 auto;
@@ -146,6 +188,7 @@ z-index: 1;
   margin: 0;
   padding: 0;
   background-color: rgba(95, 95, 95, 0.64);
+  z-index: 100;
 }
 
 .form_cover .close_form_btn {
@@ -172,6 +215,7 @@ z-index: 1;
   box-shadow: 10px 8px 4px 1px;
   border: 0;
   z-index: 100;
+  margin-bottom: 35px;
 }
 
 
@@ -202,33 +246,47 @@ z-index: 1;
   float: right;
 }
 
-.table_wrapper{
-  overflow-x: scroll;
-width: 100%;
-  max-height: fit-content !important; /* або будь-яка інша потрібна висота */
+.table_wrapper {
+  max-height: 100vh;          /* потрібна обмежена висота */
+  overflow-y: auto;           /* scroll всередині */
+  border: 1px solid #ccc;
 }
 
 table {
+  border-collapse: collapse;
   width: 1700px;
-  /* margin: 0 auto; */
-  background-color: rgb(255, 255, 255);
-  font-size: 28px;
 }
 
-
+thead tr th {
+  position: sticky;
+  top: 0;
+  background: #12c595;           /* обов’язковий фон */
+  color: rgb(13, 76, 52);
+  z-index: 2;
+  padding: 8px;
+  text-align: left;
+  font-size: 25px;
+  padding: 3px;
+}
 table tr td {
-  padding: 15px;
-  width: 250px;
+  font-size: 25px;
+  background-color: white;
+  padding: 3px;
 }
-
-table tr th {
-  padding: 15px;
-  width: 250px;
-  background-color: darkcyan;
-  color: beige;
-}
-
 @media (max-width: 576px) {
+  .form_cover .form {
+    background-color: bisque;
+    position: static;
+    width: 100% !important;
+    margin: 25px auto;
+    border: 1px solid black;
+    font-size: 22px;
+    padding: 25px;
+    border-radius: 4px;
+    box-shadow: 10px 8px 4px 1px;
+    border: 0;
+    height: fit-content !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -287,15 +345,16 @@ table tr th {
     background-color: bisque;
     position: static;
     width: 100% !important;
-    height: 100% !important;
+    height: 80% !important;
     margin: 25px auto;
     border: 1px solid black;
-    font-size: 26px;
+    font-size: 22px;
     padding: 25px;
     border-radius: 4px;
     box-shadow: 10px 8px 4px 1px;
     border: 0;
     height: fit-content !important;
+overflow-y: scroll;
   }
 
   .form_cover .form button:first-child {
@@ -323,14 +382,14 @@ table tr th {
   .form_cover .form .clearForm {
     float: right;
   }
-
+/* 
   table tr td {
     padding: 15px;
   }
 
   table tr th {
     padding: 15px;
-  }
+  } */
 }
 
 @media (min-width: 992px) {
@@ -344,15 +403,14 @@ table tr th {
     background-color: bisque;
     position: static;
     width: 100% !important;
-    height: 80vh;
-    margin: 25px auto;
+    margin: 0 auto;
     border: 1px solid black;
-    font-size: 26px;
+    font-size: 22px;
     padding: 25px;
     border-radius: 4px;
     box-shadow: 10px 8px 4px 1px;
     border: 0;
-    /* height: fit-content !important; */
+    height: fit-content !important;
   }
 }
 
